@@ -21,7 +21,7 @@ const data = {
     { id: 6,
       category: 'Hall of Fame' }
   ],
-  
+
   clues: [
     {
       question: "Scorecard Report\" & \"Peter Jacobsen Plugged In\" are seen on the sports channel devoted to this",
@@ -468,62 +468,62 @@ const data = {
       categoryId: 6
     },
     {
-      question: 'Go directly to jail',
-      answer: 'Monopoly',
-      pointValue: 100,
-      categoryId: 5
-    },
-    {
-      question: 'King me!',
-      answer: 'Checkers',
-      pointValue: 200,
-      categoryId: 5
-    },
-    {
-      question: 'Miss Scarlet in the library with the wrench',
-      answer: 'Clue',
-      pointValue: 300,
-      categoryId: 5
-    },
-    {
-      question: 'You sank my aircraft carrier!',
-      answer: 'Battleship',
-      pointValue: 400,
-      categoryId: 5
-    },
-    {
-      question: 'My wink is nearest the pot.  I\'ve won the squidge-off!',
-      answer: 'tiddlywinks',
-      pointValue: 400,
-      categoryId: 5
-    },
-    {
       question: 'IDEA is the Individuals with these Education Act, formerly the Education For All Handicapped Children Act',
       answer: 'Disabilities',
       pointValue: 100,
-      categoryId: 4
+      categoryId: 5
     },
     {
       question: '65 out of 100 students did the same as or worse than you if your grade is in the 65th of these',
       answer: 'percentile',
       pointValue: 200,
-      categoryId: 4
+      categoryId: 5
     },
     {
       question: 'It\'s the rhyming term for the technique of teaching with only a blackboard to help you',
       answer: 'chalk talk/chalk and talk',
       pointValue: 300,
-      categoryId: 4
+      categoryId: 5
     },
     {
       question: 'From the Latin for "to heal", it\'s the type of education that brings deficient students up to standard levels',
       answer: 'remedial',
       pointValue: 400,
-      categoryId: 4
+      categoryId: 5
     },
     {
       question: 'These 2 words, denoting socioeconomically challenged, followed "A Nation" in a 1983 report\'s title',
       answer: 'At Risk',
+      pointValue: 400,
+      categoryId: 5
+    },
+    {
+      question: 'What city do the Timberwolves play in?',
+      answer: 'Minneapolis',
+      pointValue: 100,
+      categoryId: 4
+    },
+    {
+      question: 'What city do the Nets play in?',
+      answer: 'Brooklyn',
+      pointValue: 200,
+      categoryId: 4
+    },
+    {
+      question: 'What city do the Clippers play in?',
+      answer: 'Los Angeles',
+      pointValue: 300,
+      categoryId: 4
+    },
+    {
+      question: 'What city do the Trailblazers play in?',
+      answer: 'Portland',
+      pointValue: 400,
+      categoryId: 4
+    },
+    {
+      question: 'What city to the Heat play in?',
+      answer: 'Miami',
       pointValue: 400,
       categoryId: 4
     },

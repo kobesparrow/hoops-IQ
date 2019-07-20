@@ -24,16 +24,10 @@ class ClueTile extends Component {
       ? <button onClick={this.showAnswer}>{this.props.pointValue}</button> 
       : answerForm 
 
-    // if (this.state.showAnswer === false) {
-    // } else {
-    //   tile = answerForm
-    // }
 
     return (
       <article>
         {tile}
-        {/* {this.props.question} */}
-        {/* <button onClick={this.showAnswer}>{this.props.pointValue}</button> */}
       </article>
     )
   }

@@ -6,6 +6,13 @@ const AnswerForm = ({question, pointValue}) => {
     <article className='answer-form'>
       <p>{question}</p>
       <p>{pointValue}</p>
+      <form>
+        <input
+          type='text'
+          placeholder='input guess'
+        />
+        <button>Guess</button>
+      </form>
     </article>
   )
 }
