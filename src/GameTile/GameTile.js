@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const GameTile = () => {
+class GameTile extends Component {
+  constructor() {
+    super() 
 
-  return (
-    <article>
-      Test gametile
-    </article>
-  )
+    this.state = {
+      
+    }
+  }
+
+  render() {
+    return (
+      <article>
+        Test gametile
+      </article>
+    )
+  }
+
 }
 
 export default GameTile;
