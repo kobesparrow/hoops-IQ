@@ -36,7 +36,7 @@ class Gameboard extends Component {
   render() {
 
     const categories = this.state.currentCategories.map(cat => {
-      return <Category {...cat} key={cat.id}/>
+      return <Category {...cat} key={cat.id} shuffle={this.shuffle} />
     })
 
     let cats = this.state.loading === true 
