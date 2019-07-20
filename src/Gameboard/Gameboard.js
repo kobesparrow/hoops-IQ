@@ -35,9 +35,6 @@ class Gameboard extends Component {
     let players = Object.keys(playerNames).map(name => {
       return { name: playerNames[name], score: 0 }
     });
-    console.log(players)
-    // const players = playerNames.
-    // [{ id: 1, name: 'player One', score: 0 }, { id: 2, name: 'player Two', score: 0 }]
     this.setState({ startGame: true, players: players })
   }
 
@@ -55,8 +52,8 @@ class Gameboard extends Component {
       return <PlayerCard {...player} />
     })
 
-    let cats = this.state.loading === true 
-      ? 'loading' 
+    let cats = this.state.startGame === false 
+      ? 'Enter names and press START GAME to begin'
       : categories
 
     let players = this.state.startGame === false
@@ -65,12 +62,12 @@ class Gameboard extends Component {
 
     return (
       <section className='game-board'>
+        <section className='game-tiles'>
+          { cats }
+        </section>
         <section className='players'>
           {players}
         </section>
-        <article className='game-tiles'>
-          { cats }
-        </article>
       </section>
     )
   }
