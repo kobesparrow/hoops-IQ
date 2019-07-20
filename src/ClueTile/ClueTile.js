@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-class GameTile extends Component {
+class ClueTile extends Component {
   constructor() {
     super() 
 
     this.state = {
-      
+      clicked: false
     }
   }
 
@@ -19,4 +19,4 @@ class GameTile extends Component {
 
 }
 
-export default GameTile;
+export default ClueTile;

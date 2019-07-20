@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import data from '../utils/mock-data';
-import GameTile from '../GameTile/GameTile';
+import Category from '../Category/Category';
 
 class Gameboard extends Component {
   constructor() {
@@ -10,6 +10,7 @@ class Gameboard extends Component {
       clues: null,
       categories: data.categories,
       currentCategories: [],
+      cluesRemaining: 16,
       loading: true
     }
   }
@@ -21,34 +22,31 @@ class Gameboard extends Component {
   }
 
   displayCategories = () => {
-    let shuffledCategories = this.shuffleCategories()
-    let categoriesToDisplay = shuffledCategories.splice(0, 4)
+    let shuffledCategories = this.shuffle(this.state.categories).splice(0, 4)
     this.setState({
-      currentCategories: [...categoriesToDisplay],
+      currentCategories: [...shuffledCategories],
       loading: false
     });
   }
 
-  shuffleCategories = () => {
-    return this.state.categories.sort(() => 0.5 - Math.random());
+  shuffle = (toShuffle) => {
+    return toShuffle.sort(() => 0.5 - Math.random());
   }
 
   render() {
-    let cats
 
-    if (this.state.loading === true) {
-      cats = 'loading...'
-    } else {
-      cats = this.state.currentCategories[0].category
-    }
+    const categories = this.state.currentCategories.map(cat => {
+      return <Category {...cat} key={cat.id}/>
+    })
 
-    // const gameTiles = data.
+    let cats = this.state.loading === true 
+      ? 'loading' 
+      : categories
 
     return (
       <section className='game-board'>
         <article className='game-tiles'>
           { cats }
-          <GameTile />
         </article>
       </section>
     )
