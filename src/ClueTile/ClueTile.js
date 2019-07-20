@@ -13,7 +13,6 @@ class ClueTile extends Component {
 
   showAnswer = () => {
     this.setState({showAnswer: true})
-    console.log('test')
   }
 
   render() {

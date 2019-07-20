@@ -13,9 +13,9 @@ class Gameboard extends Component {
       categories: data.categories,
       currentCategories: [],
       cluesRemaining: 16,
-      loading: true,
       players: [],
-      startGame: false
+      startGame: false,
+      currentPlayer: 0
     }
   }
 
@@ -35,7 +35,22 @@ class Gameboard extends Component {
     let players = Object.keys(playerNames).map(name => {
       return { name: playerNames[name], score: 0 }
     });
+
+
+
     this.setState({ startGame: true, players: players })
+  }
+
+  correctAnswer = (pointValue) => {
+    const players = this.state.players.slice()
+    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += pointValue }
+    this.setState({ players })
+  }
+
+  wrongAnswer = (pointValue) => {
+    const players = this.state.players.slice()
+    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= pointValue }
+    this.setState({ players })
   }
 
   shuffle = (toShuffle) => {
@@ -45,7 +60,12 @@ class Gameboard extends Component {
   render() {
 
     const categories = this.state.currentCategories.map(cat => {
-      return <Category {...cat} key={cat.id} shuffle={this.shuffle} />
+      return <Category {...cat} 
+                key={cat.id} 
+                shuffle={this.shuffle} 
+                correctAnswer={this.correctAnswer} 
+                wrongAnswer={this.wrongAnswer}
+              />
     })
 
     const playerCards = this.state.players.map(player => {

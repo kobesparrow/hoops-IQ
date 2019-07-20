@@ -12,9 +12,9 @@ class AnswerForm extends Component {
   checkGuess = (event) => {
     event.preventDefault();
     if (this.state.guess.toLowerCase() === this.props.answer.toLowerCase()) {
-      console.log('correct')
+      this.props.correctAnswer(this.props.pointValue)
     } else {
-      console.log('wrong!')
+      this.props.wrongAnswer(this.props.pointValue)
     }
   }
 

@@ -37,17 +37,17 @@ class Category extends Component {
     
 
 
-    let clueCards = this.state.clues.map(clue => {
-      return <ClueTile { ...clue } />
-    })
+    // let clueCards = this.state.clues.map(clue => {
+    //   return <ClueTile { ...clue } {...this.props} />
+    // })
 
     return (
       <article className='category'>
         <h3>{this.props.category}</h3>
-        <ClueTile {...clueOne} />
-        <ClueTile {...clueTwo} />
-        <ClueTile {...clueThree} />
-        <ClueTile {...clueFour} />
+        <ClueTile {...clueOne} {...this.props} />
+        <ClueTile {...clueTwo} {...this.props} />
+        <ClueTile {...clueThree} {...this.props} />
+        <ClueTile {...clueFour} {...this.props} />
       </article>
     )
   }
