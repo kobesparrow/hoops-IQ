@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 
 class AnswerForm extends Component {
   constructor() {
@@ -28,7 +29,7 @@ class AnswerForm extends Component {
   render() {
     return (
       <article className='answer-form'>
-        <p>{this.props.question}</p>
+        <p>{this.props.answer.question}</p>
         <p>{this.props.pointValue}</p>
         <form>
           <input
@@ -37,11 +38,17 @@ class AnswerForm extends Component {
             name='guess'
             onChange={this.handleChange}
           />
-          <button onClick={this.checkGuess}>Guess</button>
+          <button onClick={ this.checkGuess }>Guess</button>
         </form>
       </article>
     )
   }  
 }
 
-export default AnswerForm;
+// export default AnswerForm;
+
+export const mapPropsToState = (state) => ({
+  answer: state.answer
+})
+
+export default connect(mapPropsToState, null)(AnswerForm);

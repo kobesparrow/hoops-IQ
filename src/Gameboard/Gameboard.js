@@ -4,9 +4,12 @@ import Category from '../Category/Category';
 import PlayerForm from '../PlayerForm/PlayerForm';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import AnswerForm from '../AnswerForm/AnswerForm';
+import { connect } from 'react-redux';
+import { stashAnswer } from '../actions';
 
 
-class Gameboard extends Component {
+
+export class Gameboard extends Component {
   constructor() {
     super()
 
@@ -114,7 +117,7 @@ class Gameboard extends Component {
                 </section>
               </section> 
       case 'answer':
-        return {answer}    
+        return <AnswerForm {...this.props.answer} />   
       default:
         break;
     }
@@ -131,4 +134,14 @@ class Gameboard extends Component {
   }
 }
 
-export default Gameboard;
+// export default Gameboard;
+
+export const mapPropsToState = (state) => ({
+  answer: state.answer
+});
+
+export const mapDispatchToState = (dispatch) => ({
+  stashAnswer: (answer) => dispatch(stashAnswer(answer))
+});
+
+export default connect(mapPropsToState, mapDispatchToState)(Gameboard)
