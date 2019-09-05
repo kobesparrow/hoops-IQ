@@ -13,10 +13,10 @@ class Category extends Component {
   }
 
   async componentDidMount() {
-    await this.stashClues()
+    await this.cluesToState()
   }
 
-  stashClues = () => {
+  cluesToState = () => {
     const clues = this.props.shuffle(data.clues.filter(clue => {
       return clue.categoryId === this.props.id}));
     this.setState({ clues })

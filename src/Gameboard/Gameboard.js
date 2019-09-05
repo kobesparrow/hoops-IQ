@@ -4,9 +4,12 @@ import Category from '../Category/Category';
 import PlayerForm from '../PlayerForm/PlayerForm';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import AnswerForm from '../AnswerForm/AnswerForm';
+import { connect } from 'react-redux';
+import { stashAnswer } from '../actions';
 
 
-class Gameboard extends Component {
+
+export class Gameboard extends Component {
   constructor() {
     super()
 
@@ -43,21 +46,20 @@ class Gameboard extends Component {
     this.setDailyDouble()
   }
 
-  displayAnswer = (question, value) => {
+  displayAnswer = () => {
     this.setState({ currentDisplay: 'answer' })
-    // answer = <AnswerForm question={question} value={value} removeButton={this.removeButton} />
   }
 
   correctAnswer = (pointValue) => {
     const players = this.state.players.slice()
     players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += pointValue }
-    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
+    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1, currentDisplay: 'game' })
   }
 
   wrongAnswer = (pointValue) => {
     const players = this.state.players.slice()
-    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= pointValue }
-    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
+    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= this.props.answer.pointValue }
+    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1, currentDisplay: 'game' })
     this.changePlayer()
   }
 
@@ -77,8 +79,6 @@ class Gameboard extends Component {
   }
 
   renderGame = (status) => {
-
-    let answer = null;
 
     const categories = this.state.currentCategories.map(cat => {
       return <Category {...cat}
@@ -114,7 +114,10 @@ class Gameboard extends Component {
                 </section>
               </section> 
       case 'answer':
-        return {answer}    
+        return <AnswerForm 
+                  correctAnswer={ this.correctAnswer }
+                  wrongAnswer={ this.wrongAnswer }
+                />   
       default:
         break;
     }
@@ -131,4 +134,14 @@ class Gameboard extends Component {
   }
 }
 
-export default Gameboard;
+// export default Gameboard;
+
+export const mapPropsToState = (state) => ({
+  answer: state.answer
+});
+
+export const mapDispatchToState = (dispatch) => ({
+  stashAnswer: (answer) => dispatch(stashAnswer(answer))
+});
+
+export default connect(mapPropsToState, mapDispatchToState)(Gameboard)

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { stashAnswer } from '../actions';
 import AnswerForm from '../AnswerForm/AnswerForm';
 
-class ClueTile extends Component {
+export class ClueTile extends Component {
   constructor() {
     super() 
 
@@ -11,9 +13,13 @@ class ClueTile extends Component {
   }
 
   showAnswer = () => {
-    console.log(this.props.cluesRemaining)
+    this.props.displayAnswer()
+    this.props.stashAnswer(this.props)
+    this.removeButton();
+
+    // console.log(this.props.cluesRemaining)
     // this.props.displayAnswer(this.props.question, this.props.pointValue)
-    this.setState({ status: 'answer' });
+    // this.setState({ status: 'answer' });
     // this.props.showAnswer()
     // if (this.props.cluesRemaining === this.props.dailyDouble) {
     //   this.setState({status: 'daily double'})
@@ -24,12 +30,14 @@ class ClueTile extends Component {
   }
 
   removeButton = () => {
-    this.setState({status: 'empty'})
+    console.log('test removeButton')
+    this.setState({ status: 'answer' })
   }
 
   renderTile = (status) => {
     switch(status) {
       case 'tile':
+        // return <button onClick={() => this.props.stashAnswer(this.props)}>{this.props.pointValue}</button>;
         return <button onClick={this.showAnswer}>{this.props.pointValue}</button>;
       case 'answer':
         return <AnswerForm {...this.props} removeButton={this.removeButton} />;
@@ -49,15 +57,12 @@ class ClueTile extends Component {
       </article>
     )
   }
-
 }
 
-export default ClueTile;
+export const mapDispatchToState = (dispatch) => ({
+  stashAnswer: (answer) => dispatch(stashAnswer(answer))
+});
 
+export default connect(null, mapDispatchToState)(ClueTile);
 
-// let answerForm = <AnswerForm {...this.props} removeButton={this.removeButton} />
-
-// let tile = this.state.showAnswer === false
-//   ? <button onClick={this.showAnswer}>{this.props.pointValue}</button>
-//   : answerForm
 
