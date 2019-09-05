@@ -12,9 +12,9 @@ class Category extends Component {
     }
   }
 
-  async componentDidMount() { // This is where the issue happens, because every time it mounts, it goes through this process again
-    await this.cluesToState()
-  }
+  // async componentDidMount() { // This is where the issue happens, because every time it mounts, it goes through this process again
+  //   await this.cluesToState()
+  // }
 
   cluesToState = () => {
     console.log('test cluesToState')
@@ -33,6 +33,7 @@ class Category extends Component {
     return (
       <article className='category'>
         <h3>{this.props.category}</h3>
+        <p>{ this.props.id } </p>
         <ClueTile {...clueOne} {...this.props} />
         <ClueTile {...clueTwo} {...this.props} />
         <ClueTile {...clueThree} {...this.props} />
@@ -41,5 +42,8 @@ class Category extends Component {
     )
   }
 }
+
+
+// mapPropsToState here, then change .find to this.props.clues <---need to use 
 
 export default Category

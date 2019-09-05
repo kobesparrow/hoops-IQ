@@ -6,7 +6,7 @@ import PlayerCard from '../PlayerCard/PlayerCard';
 import AnswerForm from '../AnswerForm/AnswerForm';
 import GameArea from '../GameArea/GameArea';
 import { connect } from 'react-redux';
-import { stashAnswer } from '../actions';
+import { stashAnswer, storeClues } from '../actions';
 
 
 
@@ -31,12 +31,28 @@ export class Gameboard extends Component {
     await this.displayCategories()
   }
 
-  displayCategories = () => { // potentially create categories here?
-    let shuffledCategories = this.shuffle(this.state.categories).splice(0, 4)
+  displayCategories = () => { // potentially create categories here? Maybe save to store then access store from Categories?
+    let shuffledCategories = this.shuffle(this.state.categories).splice(0, 4);
+    console.log(shuffledCategories)
     this.setState({
       currentCategories: [...shuffledCategories],
       loading: false
     });
+    this.categoryCluesToStore(shuffledCategories);
+  }
+
+  categoryCluesToStore = (cats) => {
+    let currentClues = [];
+
+    cats.forEach(category => {
+      data.clues.forEach(clue => {
+        if (category.id === clue.categoryId) {
+          currentClues.push(clue)
+        }
+      })
+    })
+
+    this.props.storeClues(currentClues)
   }
 
   startGame = (playerNames) => {
@@ -53,7 +69,7 @@ export class Gameboard extends Component {
 
   correctAnswer = (pointValue) => {
     const players = this.state.players.slice()
-    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += pointValue }
+    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += this.props.answer.pointValue }
     this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1, currentDisplay: 'game' })
   }
 
@@ -81,9 +97,7 @@ export class Gameboard extends Component {
 
   renderGame = (status) => {
 
-
-
-    const categories = this.state.currentCategories.map(cat => {
+    const categories = this.state.currentCategories.map(cat => {  
       return <Category {...cat}
         key={cat.id}
         shuffle={this.shuffle}
@@ -96,8 +110,6 @@ export class Gameboard extends Component {
     const playerCards = this.state.players.map(player => {
       return <PlayerCard {...player} />
     })
-
-    // const categories = 
 
     let cats = this.state.startGame === false
       ? 'Enter names and press START GAME to begin'
@@ -113,7 +125,6 @@ export class Gameboard extends Component {
         return <section className='game-area'> 
                 <section className='game-tiles'>
                   {cats}
-                  <GameArea />
                 </section>
                 <section className='players'>
                   {players}
@@ -125,7 +136,7 @@ export class Gameboard extends Component {
                   wrongAnswer={ this.wrongAnswer }
                 />   
       default:
-        break;
+        return <p>Trouble loading, please refresh page</p>;
     }
   }
 
@@ -143,11 +154,13 @@ export class Gameboard extends Component {
 // export default Gameboard;
 
 export const mapPropsToState = (state) => ({
-  answer: state.answer
+  answer: state.answer,
+  clues: state.clues
 });
 
 export const mapDispatchToState = (dispatch) => ({
-  stashAnswer: (answer) => dispatch(stashAnswer(answer))
+  stashAnswer: (answer) => dispatch(stashAnswer(answer)),
+  storeClues: (clues) => dispatch(storeClues(clues))
 });
 
 export default connect(mapPropsToState, mapDispatchToState)(Gameboard)
