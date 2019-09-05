@@ -46,21 +46,20 @@ export class Gameboard extends Component {
     this.setDailyDouble()
   }
 
-  displayAnswer = (question, value) => {
+  displayAnswer = () => {
     this.setState({ currentDisplay: 'answer' })
-    // answer = <AnswerForm question={question} value={value} removeButton={this.removeButton} />
   }
 
   correctAnswer = (pointValue) => {
     const players = this.state.players.slice()
     players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += pointValue }
-    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
+    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1, currentDisplay: 'game' })
   }
 
   wrongAnswer = (pointValue) => {
     const players = this.state.players.slice()
-    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= pointValue }
-    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
+    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= this.props.answer.pointValue }
+    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1, currentDisplay: 'game' })
     this.changePlayer()
   }
 
@@ -80,8 +79,6 @@ export class Gameboard extends Component {
   }
 
   renderGame = (status) => {
-
-    let answer = null;
 
     const categories = this.state.currentCategories.map(cat => {
       return <Category {...cat}
@@ -117,7 +114,10 @@ export class Gameboard extends Component {
                 </section>
               </section> 
       case 'answer':
-        return <AnswerForm {...this.props.answer} />   
+        return <AnswerForm 
+                  correctAnswer={ this.correctAnswer }
+                  wrongAnswer={ this.wrongAnswer }
+                />   
       default:
         break;
     }

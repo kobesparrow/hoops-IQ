@@ -8,8 +8,6 @@ export class ClueTile extends Component {
     super() 
 
     this.state = {
-      answer: null,
-      answerValue: 0,
       status: 'tile'
     }
   }
@@ -17,6 +15,7 @@ export class ClueTile extends Component {
   showAnswer = () => {
     this.props.displayAnswer()
     this.props.stashAnswer(this.props)
+    this.removeButton();
 
     // console.log(this.props.cluesRemaining)
     // this.props.displayAnswer(this.props.question, this.props.pointValue)
@@ -31,7 +30,8 @@ export class ClueTile extends Component {
   }
 
   removeButton = () => {
-    this.setState({status: 'empty'})
+    console.log('test removeButton')
+    this.setState({ status: 'answer' })
   }
 
   renderTile = (status) => {
@@ -53,9 +53,6 @@ export class ClueTile extends Component {
   render() {
     return (
       <article className='clue-tile'>
-        <p>{ this.props.answer }</p>
-        <p>{ this.props.question }</p>
-        <p>{ this.props.pointValue }</p>
         { this.renderTile(this.state.status) }
       </article>
     )

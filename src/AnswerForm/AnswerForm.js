@@ -13,12 +13,12 @@ class AnswerForm extends Component {
 
   checkGuess = (event) => {
     event.preventDefault();
-    if (this.state.guess.toLowerCase() === this.props.answer.toLowerCase()) {
+    if (this.state.guess.toLowerCase() === this.props.answer.answer.toLowerCase()) {
       this.props.correctAnswer(this.props.pointValue)
-      this.props.removeButton()
+      // this.props.removeButton()
     } else {
       this.props.wrongAnswer(this.props.pointValue)
-      this.props.removeButton()
+      // this.props.removeButton()
     }
   }
 
@@ -30,7 +30,7 @@ class AnswerForm extends Component {
     return (
       <article className='answer-form'>
         <p>{this.props.answer.question}</p>
-        <p>{this.props.pointValue}</p>
+        <p>{this.props.answer.pointValue}</p>
         <form>
           <input
             type='text'
