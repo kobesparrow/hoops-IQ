@@ -6,15 +6,16 @@ class App extends Component {
   render () {
 
     return (
-      <div className="App">
-        <header className="App-header">
-          Test.
+      <section className="App">
+        <header>
+          <h1>Hoops IQ</h1>
         </header>
-        <Gameboard />
-      </div>
+        <section>
+          <Gameboard />
+        </section>
+      </section>
     );
   }
- 
 }
 
 export default App;
