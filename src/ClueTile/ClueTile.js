@@ -6,27 +6,46 @@ class ClueTile extends Component {
     super() 
 
     this.state = {
-      clicked: false,
-      showAnswer: false
+      status: 'tile'
     }
   }
 
   showAnswer = () => {
-    this.setState({showAnswer: true})
+    console.log(this.props.cluesRemaining)
+    // this.props.displayAnswer(this.props.question, this.props.pointValue)
+    this.setState({ status: 'answer' });
+    // this.props.showAnswer()
+    // if (this.props.cluesRemaining === this.props.dailyDouble) {
+    //   this.setState({status: 'daily double'})
+    // } else {
+    //   this.setState({status: 'answer'})
+    // }
+    // // this.props.changeDisplay()
+  }
+
+  removeButton = () => {
+    this.setState({status: 'empty'})
+  }
+
+  renderTile = (status) => {
+    switch(status) {
+      case 'tile':
+        return <button onClick={this.showAnswer}>{this.props.pointValue}</button>;
+      case 'answer':
+        return <AnswerForm {...this.props} removeButton={this.removeButton} />;
+      case 'empty':
+        return <p></p>
+      case 'daily double':
+        return <p>Daily Double</p>
+      default:
+        return <p></p>
+    }
   }
 
   render() {
-
-    let answerForm = <AnswerForm {...this.props} />
-
-    let tile = this.state.showAnswer === false
-      ? <button onClick={this.showAnswer}>{this.props.pointValue}</button> 
-      : answerForm 
-
-
     return (
-      <article>
-        {tile}
+      <article className='clue-tile'>
+        { this.renderTile(this.state.status) }
       </article>
     )
   }
@@ -34,3 +53,11 @@ class ClueTile extends Component {
 }
 
 export default ClueTile;
+
+
+// let answerForm = <AnswerForm {...this.props} removeButton={this.removeButton} />
+
+// let tile = this.state.showAnswer === false
+//   ? <button onClick={this.showAnswer}>{this.props.pointValue}</button>
+//   : answerForm
+

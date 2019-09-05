@@ -7,14 +7,13 @@ class Category extends Component {
     super()
 
     this.state = {
-      clues: [],
-      loading: true
+      clues: []
+      // loading: true
     }
   }
 
   async componentDidMount() {
     await this.stashClues()
-    console.log(this.state.clues)
   }
 
   stashClues = () => {
@@ -23,10 +22,11 @@ class Category extends Component {
     this.setState({ clues })
   }
 
-  displayClues = () => {
-    const clueOne = this.state.clues.find(clue => clue.pointValue === 100)
-  }
+  
 
+  // displayClues = () => {
+  //   const clueOne = this.state.clues.find(clue => clue.pointValue === 100)
+  // }
 
   render() {
 
@@ -35,11 +35,6 @@ class Category extends Component {
     const clueThree = this.state.clues.find(clue => clue.pointValue === 300)
     const clueFour = this.state.clues.find(clue => clue.pointValue === 400)
     
-
-
-    // let clueCards = this.state.clues.map(clue => {
-    //   return <ClueTile { ...clue } {...this.props} />
-    // })
 
     return (
       <article className='category'>

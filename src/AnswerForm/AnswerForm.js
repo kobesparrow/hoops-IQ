@@ -6,6 +6,7 @@ class AnswerForm extends Component {
 
     this.state = {
       guess: ''
+      // dailyDouble: 
     }
   }
 
@@ -13,8 +14,10 @@ class AnswerForm extends Component {
     event.preventDefault();
     if (this.state.guess.toLowerCase() === this.props.answer.toLowerCase()) {
       this.props.correctAnswer(this.props.pointValue)
+      this.props.removeButton()
     } else {
       this.props.wrongAnswer(this.props.pointValue)
+      this.props.removeButton()
     }
   }
 

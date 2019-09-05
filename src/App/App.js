@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Gameboard from '../Gameboard/Gameboard';
-import PlayerForm from '../PlayerForm/PlayerForm';
 
 class App extends Component {
 
