@@ -4,6 +4,7 @@ import Category from '../Category/Category';
 import PlayerForm from '../PlayerForm/PlayerForm';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import AnswerForm from '../AnswerForm/AnswerForm';
+import GameArea from '../GameArea/GameArea';
 import { connect } from 'react-redux';
 import { stashAnswer } from '../actions';
 
@@ -30,7 +31,7 @@ export class Gameboard extends Component {
     await this.displayCategories()
   }
 
-  displayCategories = () => {
+  displayCategories = () => { // potentially create categories here?
     let shuffledCategories = this.shuffle(this.state.categories).splice(0, 4)
     this.setState({
       currentCategories: [...shuffledCategories],
@@ -80,6 +81,8 @@ export class Gameboard extends Component {
 
   renderGame = (status) => {
 
+
+
     const categories = this.state.currentCategories.map(cat => {
       return <Category {...cat}
         key={cat.id}
@@ -93,6 +96,8 @@ export class Gameboard extends Component {
     const playerCards = this.state.players.map(player => {
       return <PlayerCard {...player} />
     })
+
+    // const categories = 
 
     let cats = this.state.startGame === false
       ? 'Enter names and press START GAME to begin'
@@ -108,6 +113,7 @@ export class Gameboard extends Component {
         return <section className='game-area'> 
                 <section className='game-tiles'>
                   {cats}
+                  <GameArea />
                 </section>
                 <section className='players'>
                   {players}
