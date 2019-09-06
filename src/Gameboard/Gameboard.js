@@ -17,11 +17,11 @@ export class Gameboard extends Component {
       clues: null,
       categories: data.categories,
       currentCategories: [],
-      cluesRemaining: 16,
+      cluesRemaining: 15,
       players: [],
       startGame: false,
       currentPlayer: 0,
-      dailyDouble: null,
+      dailyDouble: 14,
       currentDisplay: 'game'
     }
   }
@@ -30,7 +30,7 @@ export class Gameboard extends Component {
     await this.displayCategories()
   }
 
-  displayCategories = () => { // potentially create categories here? Maybe save to store then access store from Categories?
+  displayCategories = () => { 
     let shuffledCategories = this.shuffle(this.state.categories).splice(0, 4);
     this.setState({
       currentCategories: [...shuffledCategories],
@@ -58,7 +58,7 @@ export class Gameboard extends Component {
       return { name: playerNames[name], score: 0 }
     });
     this.setState({ startGame: true, players: players })
-    this.setDailyDouble()
+    // this.setDailyDouble()
   }
 
   displayAnswer = () => {
@@ -93,50 +93,50 @@ export class Gameboard extends Component {
     return toShuffle.sort(() => 0.5 - Math.random());
   }
 
-  renderGame = (status) => {
+  // renderGame = (status) => {
 
-    const categories = this.state.currentCategories.map(cat => {  
-      return <Category {...cat}
-        key={cat.id}
-        shuffle={this.shuffle}
-        correctAnswer={this.correctAnswer}
-        wrongAnswer={this.wrongAnswer}
-        displayAnswer={this.displayAnswer}
-      />
-    })
+  //   const categories = this.state.currentCategories.map(cat => {  
+  //     return <Category {...cat}
+  //       key={cat.id}
+  //       shuffle={this.shuffle}
+  //       correctAnswer={this.correctAnswer}
+  //       wrongAnswer={this.wrongAnswer}
+  //       displayAnswer={this.displayAnswer}
+  //     />
+  //   })
 
-    const playerCards = this.state.players.map(player => {
-      return <PlayerCard {...player} />
-    })
+  //   const playerCards = this.state.players.map(player => {
+  //     return <PlayerCard {...player} />
+  //   })
 
-    let cats = this.state.startGame === false
-      ? 'Enter names and press START GAME to begin'
-      : categories
+  //   let cats = this.state.startGame === false
+  //     ? 'Enter names and press START GAME to begin'
+  //     : categories
 
-    let players = this.state.startGame === false
-      ? <PlayerForm startGame={this.startGame} />
-      : playerCards
+  //   let players = this.state.startGame === false
+  //     ? <PlayerForm startGame={this.startGame} />
+  //     : playerCards
 
 
-    switch (status) {
-      case 'game':
-        return <section className='game-area'> 
-                <section className='game-tiles'>
-                  {cats}
-                </section>
-                <section className='players'>
-                  {players}
-                </section>
-              </section> 
-      case 'answer':
-        return <AnswerForm 
-                  correctAnswer={ this.correctAnswer }
-                  wrongAnswer={ this.wrongAnswer }
-                />   
-      default:
-        return <p>Trouble loading, please refresh page</p>;
-    }
-  }
+  //   switch (status) {
+  //     case 'game':
+  //       return <section className='game-area'> 
+  //               <section className='game-tiles'>
+  //                 {cats}
+  //               </section>
+  //               <section className='players'>
+  //                 {players}
+  //               </section>
+  //             </section> 
+  //     case 'answer':
+  //       return <AnswerForm 
+  //                 correctAnswer={ this.correctAnswer }
+  //                 wrongAnswer={ this.wrongAnswer }
+  //               />   
+  //     default:
+  //       return <p>Trouble loading, please refresh page</p>;
+  //   }
+  // }
 
 
   render() {
@@ -148,6 +148,8 @@ export class Gameboard extends Component {
         correctAnswer={this.correctAnswer}
         wrongAnswer={this.wrongAnswer}
         displayAnswer={this.displayAnswer}
+        cluesRemaining={ this.state.cluesRemaining }
+        dailyDouble={ this.state.dailyDouble }
       />
     })
 
