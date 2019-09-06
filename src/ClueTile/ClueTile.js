@@ -38,7 +38,7 @@ export class ClueTile extends Component {
     switch(status) {
       case 'tile':
         // return <button onClick={() => this.props.stashAnswer(this.props)}>{this.props.pointValue}</button>;
-        return <button onClick={this.showAnswer}>{this.props.pointValue}</button>;
+        return <button onClick={this.showAnswer}>{this.props.pointValue}{this.props.answer}</button>;
       case 'answer':
         return <AnswerForm {...this.props} removeButton={this.removeButton} />;
       case 'empty':
@@ -53,6 +53,7 @@ export class ClueTile extends Component {
   render() {
     return (
       <article className='clue-tile'>
+
         { this.renderTile(this.state.status) }
       </article>
     )

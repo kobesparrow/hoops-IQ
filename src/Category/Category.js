@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ClueTile from '../ClueTile/ClueTile';
 import data from '../utils/mock-data';
+import { connect } from 'react-redux';
 
-class Category extends Component {
+export class Category extends Component {
   constructor() {
     super()
 
@@ -12,28 +13,18 @@ class Category extends Component {
     }
   }
 
-  // async componentDidMount() { // This is where the issue happens, because every time it mounts, it goes through this process again
-  //   await this.cluesToState()
-  // }
-
-  cluesToState = () => {
-    console.log('test cluesToState')
-    const clues = this.props.shuffle(data.clues.filter(clue => {
-      return clue.categoryId === this.props.id}));
-    this.setState({ clues })
-  }
-
   render() {
 
-    const clueOne = this.state.clues.find(clue => clue.pointValue === 100)
-    const clueTwo = this.state.clues.find(clue => clue.pointValue === 200)
-    const clueThree = this.state.clues.find(clue => clue.pointValue === 300)
-    const clueFour = this.state.clues.find(clue => clue.pointValue === 400)
+    const clueOne = this.props.clues.find(clue => clue.pointValue === 100 && clue.categoryId === this.props.id)
+    const clueTwo = this.props.clues.find(clue => clue.pointValue === 200 && clue.categoryId === this.props.id)
+    const clueThree = this.props.clues.find(clue => clue.pointValue === 300 && clue.categoryId === this.props.id)
+    const clueFour = this.props.clues.find(clue => clue.pointValue === 400 && clue.categoryId === this.props.id)
     
     return (
       <article className='category'>
         <h3>{this.props.category}</h3>
-        <p>{ this.props.id } </p>
+        <p>{ this.props.clues[0].pointValue } </p>
+        {/* <p>{this.consoleLodge(categoryOne) }</p> */}
         <ClueTile {...clueOne} {...this.props} />
         <ClueTile {...clueTwo} {...this.props} />
         <ClueTile {...clueThree} {...this.props} />
@@ -43,7 +34,8 @@ class Category extends Component {
   }
 }
 
+export const mapPropsToState = (state) => ({
+  clues: state.clues
+})
 
-// mapPropsToState here, then change .find to this.props.clues <---need to use 
-
-export default Category
+export default connect(mapPropsToState)(Category);
