@@ -4,7 +4,6 @@ import Category from '../Category/Category';
 import PlayerForm from '../PlayerForm/PlayerForm';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import AnswerForm from '../AnswerForm/AnswerForm';
-import GameArea from '../GameArea/GameArea';
 import { connect } from 'react-redux';
 import { stashAnswer, storeClues } from '../actions';
 
@@ -33,7 +32,6 @@ export class Gameboard extends Component {
 
   displayCategories = () => { // potentially create categories here? Maybe save to store then access store from Categories?
     let shuffledCategories = this.shuffle(this.state.categories).splice(0, 4);
-    console.log(shuffledCategories)
     this.setState({
       currentCategories: [...shuffledCategories],
       loading: false
@@ -69,14 +67,14 @@ export class Gameboard extends Component {
 
   correctAnswer = (pointValue) => {
     const players = this.state.players.slice()
-    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += this.props.answer.pointValue }
-    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1, currentDisplay: 'game' })
+    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += pointValue }
+    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
   }
 
   wrongAnswer = (pointValue) => {
     const players = this.state.players.slice()
-    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= this.props.answer.pointValue }
-    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1, currentDisplay: 'game' })
+    players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= pointValue }
+    this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
     this.changePlayer()
   }
 
@@ -143,10 +141,41 @@ export class Gameboard extends Component {
 
   render() {
 
+    const categories = this.state.currentCategories.map(cat => {
+      return <Category {...cat}
+        key={cat.id}
+        shuffle={this.shuffle}
+        correctAnswer={this.correctAnswer}
+        wrongAnswer={this.wrongAnswer}
+        displayAnswer={this.displayAnswer}
+      />
+    })
+
+    const playerCards = this.state.players.map(player => {
+      return <PlayerCard {...player} />
+    })
+
+    let cats = this.state.startGame === false
+      ? 'Enter names and press START GAME to begin'
+      : categories
+
+    let players = this.state.startGame === false
+      ? <PlayerForm startGame={this.startGame} />
+      : playerCards
+
     return (
-      <section className='game-board'>
-        { this.renderGame(this.state.currentDisplay) }
+      <section className='game-area'>
+        <section className='game-tiles'>
+          {cats}
+        </section>
+        <section className='players'>
+          {players}
+        </section>
       </section>
+      
+      // <section className='game-board'>
+      //   { this.renderGame(this.state.currentDisplay) }
+      // </section>
     )
   }
 }
@@ -154,7 +183,7 @@ export class Gameboard extends Component {
 // export default Gameboard;
 
 export const mapPropsToState = (state) => ({
-  answer: state.answer,
+  // answer: state.answer,
   clues: state.clues
 });
 
