@@ -3,6 +3,7 @@ import data from '../utils/mock-data';
 import Category from '../Category/Category';
 import PlayerForm from '../PlayerForm/PlayerForm';
 import PlayerCard from '../PlayerCard/PlayerCard';
+import FinalJeopardy from '../FinalJeopardy/FinalJeopardy';
 // import AnswerForm from '../AnswerForm/AnswerForm';
 import { connect } from 'react-redux';
 import { stashAnswer, storeClues } from '../actions';
@@ -19,11 +20,10 @@ export class Gameboard extends Component {
       currentCategories: [],
       cluesRemaining: 15,
       players: [],
-      startGame: false,
+      startGame: 'false',
       currentPlayer: 0,
       dailyDouble: null,
-      // currentDisplay: 'game'
-      currentRound: 0
+      currentRound: 1
     }
   }
 
@@ -59,7 +59,7 @@ export class Gameboard extends Component {
     let players = Object.keys(playerNames).map(name => {
       return { name: playerNames[name], score: 0 }
     });
-    this.setState({ startGame: true, players: players })
+    this.setState({ startGame: 'true', players: players })
     this.setDailyDouble()
   }
 
@@ -93,14 +93,22 @@ export class Gameboard extends Component {
       this.setState({ cluesRemaining: 15 })
       this.displayCategories()
       this.setDailyDouble()
-      
+    } else if (this.state.cluesRemaining === 0 && this.state.currentRound === 2) {
+      this.finalJeopardy()
     }
-    // console.log('test checkRound')
   }
 
   setDailyDouble = () => {
     let dailyDouble = Math.floor(Math.random() * 16 - 1) + 1
     this.setState({ dailyDouble })
+  }
+
+  finalJeopardy = () => {
+    let finalCategory = this.shuffle(this.state.categories).splice(0, 1);
+    console.log('finalCategory', finalCategory)
+    this.props.storeClues(finalCategory)
+    // this.categoryCluesToStore(finalCategory);
+    this.setState({ startGame: 'final' })
   }
 
   shuffle = (toShuffle) => {
@@ -171,11 +179,21 @@ export class Gameboard extends Component {
       return <PlayerCard {...player} />
     })
 
-    let cats = this.state.startGame === false
-      ? 'Enter names and press START GAME to begin'
-      : categories
+    // let cats = this.state.startGame === false
+    //   ? 'Enter names and press START GAME to begin'
+    //   : categories
 
-    let players = this.state.startGame === false
+    let cats
+
+    if (this.state.startGame === 'false') {
+      cats = 'Enter names and press START GAME to begin'
+    } else if (this.state.startGame === 'final') {
+      cats = <FinalJeopardy shuffle={ this.shuffle } />
+    } else {
+      cats = categories
+    }
+
+    let players = this.state.startGame === 'false'
       ? <PlayerForm startGame={this.startGame} />
       : playerCards
 
