@@ -3,7 +3,7 @@ import data from '../utils/mock-data';
 import Category from '../Category/Category';
 import PlayerForm from '../PlayerForm/PlayerForm';
 import PlayerCard from '../PlayerCard/PlayerCard';
-import AnswerForm from '../AnswerForm/AnswerForm';
+// import AnswerForm from '../AnswerForm/AnswerForm';
 import { connect } from 'react-redux';
 import { stashAnswer, storeClues } from '../actions';
 
@@ -22,7 +22,8 @@ export class Gameboard extends Component {
       startGame: false,
       currentPlayer: 0,
       dailyDouble: 14,
-      currentDisplay: 'game'
+      // currentDisplay: 'game'
+      currentRound: 0
     }
   }
 
@@ -34,7 +35,8 @@ export class Gameboard extends Component {
     let shuffledCategories = this.shuffle(this.state.categories).splice(0, 4);
     this.setState({
       currentCategories: [...shuffledCategories],
-      loading: false
+      loading: false,
+      currentRound: this.state.currentRound + 1
     });
     this.categoryCluesToStore(shuffledCategories);
   }
@@ -69,6 +71,7 @@ export class Gameboard extends Component {
     const players = this.state.players.slice()
     players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score += pointValue }
     this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
+    this.checkRound()
   }
 
   wrongAnswer = (pointValue) => {
@@ -76,12 +79,20 @@ export class Gameboard extends Component {
     players[this.state.currentPlayer] = { name: players[this.state.currentPlayer].name, score: players[this.state.currentPlayer].score -= pointValue }
     this.setState({ players, cluesRemaining: this.state.cluesRemaining - 1 })
     this.changePlayer()
+    this.checkRound()
   }
 
   changePlayer = () => {
     this.state.currentPlayer !== 2 
       ? this.setState({ currentPlayer: this.state.currentPlayer += 1 })
       : this.setState({ currentPlayer: 0 })
+  }
+
+  checkRound = () => {
+    if (this.state.cluesRemaining === 0 && this.state.currentRound === 1) {
+      this.displayCategories()
+    }
+    // console.log('test checkRound')
   }
 
   setDailyDouble = () => {
