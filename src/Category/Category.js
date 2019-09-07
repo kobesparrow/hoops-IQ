@@ -1,41 +1,19 @@
 import React, { Component } from 'react';
 import ClueTile from '../ClueTile/ClueTile';
-import data from '../utils/mock-data';
+import { connect } from 'react-redux';
 
-class Category extends Component {
+export class Category extends Component {
   constructor() {
     super()
-
-    this.state = {
-      clues: []
-      // loading: true
-    }
   }
-
-  async componentDidMount() {
-    await this.cluesToState()
-  }
-
-  cluesToState = () => {
-    const clues = this.props.shuffle(data.clues.filter(clue => {
-      return clue.categoryId === this.props.id}));
-    this.setState({ clues })
-  }
-
-  
-
-  // displayClues = () => {
-  //   const clueOne = this.state.clues.find(clue => clue.pointValue === 100)
-  // }
 
   render() {
 
-    const clueOne = this.state.clues.find(clue => clue.pointValue === 100)
-    const clueTwo = this.state.clues.find(clue => clue.pointValue === 200)
-    const clueThree = this.state.clues.find(clue => clue.pointValue === 300)
-    const clueFour = this.state.clues.find(clue => clue.pointValue === 400)
+    const clueOne = this.props.clues.find(clue => clue.pointValue === 100 && clue.categoryId === this.props.id)
+    const clueTwo = this.props.clues.find(clue => clue.pointValue === 200 && clue.categoryId === this.props.id)
+    const clueThree = this.props.clues.find(clue => clue.pointValue === 300 && clue.categoryId === this.props.id)
+    const clueFour = this.props.clues.find(clue => clue.pointValue === 400 && clue.categoryId === this.props.id)
     
-
     return (
       <article className='category'>
         <h3>{this.props.category}</h3>
@@ -48,4 +26,8 @@ class Category extends Component {
   }
 }
 
-export default Category
+export const mapPropsToState = (state) => ({
+  clues: state.clues
+})
+
+export default connect(mapPropsToState)(Category);

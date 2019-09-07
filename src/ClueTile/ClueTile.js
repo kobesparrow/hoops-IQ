@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { stashAnswer } from '../actions';
 import AnswerForm from '../AnswerForm/AnswerForm';
+import DailyDouble from '../DailyDouble/DailyDouble';
 
 export class ClueTile extends Component {
   constructor() {
@@ -13,38 +14,29 @@ export class ClueTile extends Component {
   }
 
   showAnswer = () => {
-    this.props.displayAnswer()
-    this.props.stashAnswer(this.props)
-    this.removeButton();
-
-    // console.log(this.props.cluesRemaining)
-    // this.props.displayAnswer(this.props.question, this.props.pointValue)
-    // this.setState({ status: 'answer' });
-    // this.props.showAnswer()
-    // if (this.props.cluesRemaining === this.props.dailyDouble) {
-    //   this.setState({status: 'daily double'})
-    // } else {
-    //   this.setState({status: 'answer'})
-    // }
-    // // this.props.changeDisplay()
+    console.log('clues remaining', this.props.cluesRemaining)
+    console.log('daily double', this.props.dailyDouble)
+    if (this.props.dailyDouble === this.props.cluesRemaining) {
+      this.setState({ status: 'daily double' })
+    } else {
+      this.setState({ status: 'answer' })
+    }
   }
 
   removeButton = () => {
-    console.log('test removeButton')
-    this.setState({ status: 'answer' })
+    this.setState({ status: 'empty' })
   }
 
   renderTile = (status) => {
     switch(status) {
       case 'tile':
-        // return <button onClick={() => this.props.stashAnswer(this.props)}>{this.props.pointValue}</button>;
         return <button onClick={this.showAnswer}>{this.props.pointValue}</button>;
       case 'answer':
-        return <AnswerForm {...this.props} removeButton={this.removeButton} />;
+        return <AnswerForm {...this.props} removeButton={ this.removeButton } />;
       case 'empty':
         return <p></p>
       case 'daily double':
-        return <p>Daily Double</p>
+        return <DailyDouble {...this.props} removeButton={ this.removeButton } />
       default:
         return <p></p>
     }

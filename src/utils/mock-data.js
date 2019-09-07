@@ -19,7 +19,15 @@ const data = {
     { id: 5,
       category: 'Players' },
     { id: 6,
-      category: 'Hall of Fame' }
+      category: 'Hall of Fame' },
+    { id: 7,
+      category: 'Rivalries' },
+    { id: 8,
+      category: 'Dream Team' },
+    { id: 9,
+      category: 'International' },
+    { id: 10,
+      category: 'Kobe Bryant' },
   ],
 
   clues: [
