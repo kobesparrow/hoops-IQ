@@ -21,7 +21,7 @@ export class Gameboard extends Component {
       players: [],
       startGame: false,
       currentPlayer: 0,
-      dailyDouble: 14,
+      dailyDouble: null,
       // currentDisplay: 'game'
       currentRound: 0
     }
@@ -60,7 +60,7 @@ export class Gameboard extends Component {
       return { name: playerNames[name], score: 0 }
     });
     this.setState({ startGame: true, players: players })
-    // this.setDailyDouble()
+    this.setDailyDouble()
   }
 
   displayAnswer = () => {
@@ -90,7 +90,10 @@ export class Gameboard extends Component {
 
   checkRound = () => {
     if (this.state.cluesRemaining === 0 && this.state.currentRound === 1) {
+      this.setState({ cluesRemaining: 15 })
       this.displayCategories()
+      this.setDailyDouble()
+      
     }
     // console.log('test checkRound')
   }
