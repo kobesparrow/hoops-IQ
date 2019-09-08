@@ -9,13 +9,27 @@ export class FinalJeopardy extends Component {
       display: 'intro',
       playerOneWager: 0,
       playerTwoWager: 0,
-      playerThreeWager: 0
+      playerThreeWager: 0,
+      playerOneGuess: '',
+      playerTwoGuess: '',
+      playerThreeGuess: ''
     }
   }
 
   handleChange = (event) => {
     const {name, value} = event.target
     this.setState({ [name]: value })
+  }
+
+  setWagers = (event) => {
+    event.preventDefault();
+    this.setState({ display: 'question' })
+  }
+
+  checkGuesses = (event) => {
+    event.preventDefault()
+    this.setState({ display: 'answer' })
+    console.log('guess logic')
   }
 
   renderDisplay = (status) => {
@@ -45,9 +59,39 @@ export class FinalJeopardy extends Component {
                 placeholder='Player Three Wager'
                 onChange={ this.handleChange }
               />
+              <button onClick={ this.setWagers }>SUBMIT WAGERS</button>
             </form>
           </section>
-        
+      case 'question':
+        return <section>
+          <p>{finalClue.question}</p>
+          <form>
+            <input
+              type='text'
+              name='playerOneGuess'
+              placeholder='Player One Guess'
+              onChange={this.handleChange}
+            />
+            <input
+              type='text'
+              name='playerTwoGuess'
+              placeholder='Player Two Guess'
+              onChange={this.handleChange}
+            />
+            <input
+              type='text'
+              name='playerThreeGuess'
+              placeholder='Player Three Guess'
+              onChange={this.handleChange}
+            />
+            <button onClick={ this.checkGuesses }>SUBMIT WAGERS</button>
+          </form>
+        </section>
+      case 'answer':
+        return <section>
+                <p>{ finalClue.answer }</p>
+              </section>
+      case ''
       default:
         return <p>There was an error, please reload the game.</p>
     }
