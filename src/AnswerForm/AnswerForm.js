@@ -35,7 +35,7 @@ class AnswerForm extends Component {
             type='text'
             placeholder='input guess'
             name='guess'
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
           />
           <button onClick={ this.checkGuess }>Guess</button>
         </form>
