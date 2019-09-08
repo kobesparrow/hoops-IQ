@@ -6,8 +6,16 @@ export class FinalJeopardy extends Component {
     super()
 
     this.state = {
-      display: 'intro'
+      display: 'intro',
+      playerOneWager: 0,
+      playerTwoWager: 0,
+      playerThreeWager: 0
     }
+  }
+
+  handleChange = (event) => {
+    const {name, value} = event.target
+    this.setState({ [name]: value })
   }
 
   renderDisplay = (status) => {
@@ -15,8 +23,30 @@ export class FinalJeopardy extends Component {
     
     console.log('finalClue', finalClue)
     switch (status) {
-      case 'intro':
-        return <p>{ this.props.clues.category }</p>
+      case 'intro': 
+          return <section>
+            <p>{ this.props.category }</p>
+            <form>
+              <input
+                type='text'
+                name='playerOneWager'
+                placeholder='Player One Wager'
+                onChange={ this.handleChange }
+              />
+              <input
+                type='text'
+                name='playerTwoWager'
+                placeholder='Player Two Wager'
+                onChange={ this.handleChange }
+              />
+              <input
+                type='text'
+                name='playerThreeWager'
+                placeholder='Player Three Wager'
+                onChange={ this.handleChange }
+              />
+            </form>
+          </section>
         
       default:
         return <p>There was an error, please reload the game.</p>

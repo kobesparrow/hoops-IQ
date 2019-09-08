@@ -105,61 +105,21 @@ export class Gameboard extends Component {
 
   finalJeopardy = () => {
     let finalCategory = this.shuffle(this.state.categories).splice(0, 1);
-    console.log('finalCategory', finalCategory)
-    this.props.storeClues(finalCategory)
-    // this.categoryCluesToStore(finalCategory);
+    this.categoryCluesToStore(finalCategory);
     this.setState({ startGame: 'final' })
+  }
+
+  createFinalJeopardy = () => {
+    console.log('')
+    let finalJeopardy = this.state.currentCategories.map(cat => {
+      return <FinalJeopardy {...cat} shuffle={this.shuffle} />
+    })
+    return finalJeopardy
   }
 
   shuffle = (toShuffle) => {
     return toShuffle.sort(() => 0.5 - Math.random());
   }
-
-  // renderGame = (status) => {
-
-  //   const categories = this.state.currentCategories.map(cat => {  
-  //     return <Category {...cat}
-  //       key={cat.id}
-  //       shuffle={this.shuffle}
-  //       correctAnswer={this.correctAnswer}
-  //       wrongAnswer={this.wrongAnswer}
-  //       displayAnswer={this.displayAnswer}
-  //     />
-  //   })
-
-  //   const playerCards = this.state.players.map(player => {
-  //     return <PlayerCard {...player} />
-  //   })
-
-  //   let cats = this.state.startGame === false
-  //     ? 'Enter names and press START GAME to begin'
-  //     : categories
-
-  //   let players = this.state.startGame === false
-  //     ? <PlayerForm startGame={this.startGame} />
-  //     : playerCards
-
-
-  //   switch (status) {
-  //     case 'game':
-  //       return <section className='game-area'> 
-  //               <section className='game-tiles'>
-  //                 {cats}
-  //               </section>
-  //               <section className='players'>
-  //                 {players}
-  //               </section>
-  //             </section> 
-  //     case 'answer':
-  //       return <AnswerForm 
-  //                 correctAnswer={ this.correctAnswer }
-  //                 wrongAnswer={ this.wrongAnswer }
-  //               />   
-  //     default:
-  //       return <p>Trouble loading, please refresh page</p>;
-  //   }
-  // }
-
 
   render() {
 
@@ -179,16 +139,20 @@ export class Gameboard extends Component {
       return <PlayerCard {...player} />
     })
 
-    // let cats = this.state.startGame === false
-    //   ? 'Enter names and press START GAME to begin'
-    //   : categories
+    // let finalJeopardy = <FinalJeopardy
+    //                       category={this.state.currentCategories[0].category}
+    //                       shuffle={this.shuffle}
+    //                     />
 
     let cats
 
     if (this.state.startGame === 'false') {
       cats = 'Enter names and press START GAME to begin'
     } else if (this.state.startGame === 'final') {
-      cats = <FinalJeopardy shuffle={ this.shuffle } />
+      cats = <FinalJeopardy
+              category={this.state.currentCategories[0].category}
+              shuffle={this.shuffle}
+            />
     } else {
       cats = categories
     }
@@ -206,10 +170,6 @@ export class Gameboard extends Component {
           {players}
         </section>
       </section>
-      
-      // <section className='game-board'>
-      //   { this.renderGame(this.state.currentDisplay) }
-      // </section>
     )
   }
 }
@@ -217,7 +177,6 @@ export class Gameboard extends Component {
 // export default Gameboard;
 
 export const mapPropsToState = (state) => ({
-  // answer: state.answer,
   clues: state.clues
 });
 
