@@ -150,8 +150,9 @@ export class Gameboard extends Component {
       cats = 'Enter names and press START GAME to begin'
     } else if (this.state.startGame === 'final') {
       cats = <FinalJeopardy
-              category={this.state.currentCategories[0].category}
-              shuffle={this.shuffle}
+              category={ this.state.currentCategories[0].category }
+              shuffle={ this.shuffle }
+              players={ this.state.players }
             />
     } else {
       cats = categories

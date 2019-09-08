@@ -12,7 +12,8 @@ export class FinalJeopardy extends Component {
       playerThreeWager: 0,
       playerOneGuess: '',
       playerTwoGuess: '',
-      playerThreeGuess: ''
+      playerThreeGuess: '',
+      // guesses: []
     }
   }
 
@@ -26,8 +27,30 @@ export class FinalJeopardy extends Component {
     this.setState({ display: 'question' })
   }
 
-  checkGuesses = (event) => {
+  checkGuesses = (event, finalClue) => {
     event.preventDefault()
+    let guesses = []
+    let wagers = []
+    let spot = 0
+    guesses = guesses.push(playerOneGuess, playerTwoGuess, playerThreeGuess)
+    wagers = wagers.push(playerOneWager, playerTwoWager, playerThreeWager)
+    console.log('guesses', guesses)
+    console.log('wagers', wagers)
+    this.props.players.forEach(player => {
+      if (guesses[spot].toLowerCase() === finalClue.answer) {
+        player.score += wager[spot]
+        spot++
+      } else {
+        player.score -= wager[spot]
+        spot++
+      }
+    })
+    console.log('players', this.props.players)
+    // if (this.state.playerOneGuess.toLowerCase() === finalClue.answer.toLowerCase()){
+    //   this.props.players[0].score += playerOneWager
+    // } else {
+    //   this.props.player[]
+    // }
     this.setState({ display: 'answer' })
     console.log('guess logic')
   }
@@ -84,14 +107,17 @@ export class FinalJeopardy extends Component {
               placeholder='Player Three Guess'
               onChange={this.handleChange}
             />
-            <button onClick={ this.checkGuesses }>SUBMIT WAGERS</button>
+            <button onClick={ () => this.checkGuesses(finalClue) }>SUBMIT WAGERS</button>
           </form>
         </section>
       case 'answer':
         return <section>
                 <p>{ finalClue.answer }</p>
               </section>
-      case ''
+      case 'winner':
+        return <section>
+                <p>Has won the game</p>
+              </section>
       default:
         return <p>There was an error, please reload the game.</p>
     }
